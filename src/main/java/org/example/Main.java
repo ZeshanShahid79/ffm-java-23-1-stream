@@ -1,12 +1,15 @@
 package org.example;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
 
         List<Animal> animals = new ArrayList<>();
@@ -55,8 +58,6 @@ public class Main {
                 });
 
 
-
-
         List<Integer> numbers = Arrays.asList(1, 2, 2, 3, 4, 5, 7, 6, 3, 2, 7, 8, 9);
 
         // Schritt 1 gerade Zahlen
@@ -69,7 +70,7 @@ public class Main {
 
         // Schritt 2 verdopple jede zahl
         numbers.stream()
-                .map(number ->  number * 2)
+                .map(number -> number * 2)
                 .forEach(System.out::println);
         System.out.println("---------------------------------------");
 
@@ -83,7 +84,7 @@ public class Main {
         // Schritt 4 Summer aller Elemente
 
         Optional number = numbers.stream()
-                .reduce((a,b) -> a+b);
+                .reduce((a, b) -> a + b);
         System.out.println(number.get());
         System.out.println("---------------------------------------");
 
@@ -102,14 +103,21 @@ public class Main {
         System.out.println("---------------------------------------");
 
 
+        // Bonus Aufgabe
+
+        List<Student> studentList = Files.lines(Path.of("src/main/resources/students.csv"))
+                .skip(1)
+                .filter(line -> !line.isEmpty())
+                .distinct()
+                .map(line -> {
+                    String[] split = line.split(",", 4);
+                    return new Student(split[0], split[1], split[2], split[3]);
+                })
+                .toList();
+
+        System.out.println(studentList);
 
 
-
-
-
-
-//        Mathe addieren = (int a, int b) -> a + b;
-//        System.out.println(addieren.someFunction(6,5));
     }
 
 }
